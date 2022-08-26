@@ -14,10 +14,8 @@ beforeAll(async () => {
     await client.connect()
     await client.query(`
     DELETE FROM public."Authorization";
-    DELETE FROM public."Equipment";
     DELETE FROM public."Relatory";
-    DELETE FROM public."Reservation";
-    DELETE FROM public."User" WHERE ID NOT BETWEEN 26 AND 28;
+    DELETE FROM public."User" WHERE ID NOT BETWEEN 1 AND 3;
     `)
 
     let request
