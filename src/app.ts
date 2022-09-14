@@ -1,5 +1,6 @@
 import express from 'express';
 import cors from 'cors';
+import helmet from 'helmet';
 import { config } from './config/config';
 import { checkConnection } from './config/database'
 import middlewares from './middlewares'
@@ -10,6 +11,7 @@ const app = express()
 const configureExpress = () => {
     if (config.default.env == 'production') {
         app.use(cors())
+        app.use(helmet())
     }
     app.use(express.json())
     app.use(middlewares)

@@ -1,6 +1,6 @@
 {
   "name": "beefore-back-end",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Trabalho de Projeto Integrador e Prog Para Internet 2022.1 ~ 2022.2",
   "main": "server.js",
   "scripts": {
@@ -33,6 +33,7 @@
     "@types/node": "^18.6.2",
     "@types/nodemailer": "^6.4.5",
     "axios": "^0.27.2",
+    "superagent": "^8.0.0",
     "ts-jest": "^28.0.7",
     "typescript": "^4.7.4"
   },
@@ -48,6 +49,7 @@
     "dotenv": "^16.0.1",
     "express": "^4.18.1",
     "fast-glob": "^3.2.11",
+    "helmet": "^6.0.0",
     "jsonwebtoken": "^8.5.1",
     "luxon": "^3.0.1",
     "nodemailer": "^6.7.7",

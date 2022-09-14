@@ -5,22 +5,24 @@ export default class RelatoryController {
     }
 
     async create(newRelatory: Relatory) {
-        return await this.prisma.Relatory.create(newRelatory)
+        return await this.prisma.Relatory.create({
+            data: newRelatory
+        })
     }
 
     async getByUserId(userid: number) {
-        return await this.prisma.Relatory.findOne({ where: { userid } })
+        return await this.prisma.Relatory.findUnique({ where: { userid: userid } })
     }
 
     async getAll() {
         return await this.prisma.Relatory.findMany()
     }
 
-    async updateActionsByUserId(userid:number, newAction: Action) {
-        return await this.prisma.Relatory.update({ actions: newAction }, { where: { userid } })
+    async updateActionsByUserId(userid: number, newAction: Action) {
+        return await this.prisma.Relatory.update({ data: { actions: newAction }, where: { userid: userid } })
     }
 
     async deleteByUserId(userid: number) {
-        return await this.prisma.Relatory.delete({ where: { userid } })
+        return await this.prisma.Relatory.delete({ where: { id: userid } })
     }
 }

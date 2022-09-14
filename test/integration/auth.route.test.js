@@ -14,7 +14,6 @@ describe('POST /auth/login', () => {
         }
         catch (err) {
             console.log(err.response)
-            throw err
         }
 
         expect(request.data.token).toBeTruthy()
@@ -32,7 +31,6 @@ describe('POST /auth/login', () => {
         }
         catch (err) {
             console.log(err.response)
-            throw err
         }
 
         expect(request.data.token).toBeTruthy()
@@ -49,8 +47,7 @@ describe('POST /auth/login', () => {
             visitorToken = request.data.token
         }
         catch (err) {
-            console.log(err.response)
-            throw err
+            console.log(err.response)   
         }
 
         expect(request.data.token).toBeTruthy()

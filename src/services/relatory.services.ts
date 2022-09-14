@@ -10,7 +10,7 @@ export default class ReservationServices {
         const newActionDay = time.local({ zone: "America/Fortaleza" }).toFormat("dd/MM/yyyy")
         const newActionTime = time.local({ zone: "America/Fortaleza" }).toFormat("HH:mm:ss")
 
-        let newAction
+        let newAction: any
         if (actualActions == null) {
             newAction = {
                 [newActionDay]: {

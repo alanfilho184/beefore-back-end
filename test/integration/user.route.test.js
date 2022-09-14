@@ -15,7 +15,7 @@ beforeAll(async () => {
     await client.query(`
     DELETE FROM public."Authorization";
     DELETE FROM public."Relatory";
-    DELETE FROM public."User" WHERE ID NOT BETWEEN 1 AND 3;
+    DELETE FROM public."User" WHERE ID NOT BETWEEN 117 AND 119;
     `)
 
     let request
@@ -29,7 +29,6 @@ beforeAll(async () => {
     }
     catch (err) {
         console.log(err.response)
-        throw err
     }
 
     try {
@@ -42,7 +41,6 @@ beforeAll(async () => {
     }
     catch (err) {
         console.log(err.response)
-        throw err
     }
 
     try {
@@ -55,7 +53,6 @@ beforeAll(async () => {
     }
     catch (err) {
         console.log(err.response)
-        throw err
     }
 })
 
@@ -274,7 +271,6 @@ describe('PATCH /user/', () => {
         }
         catch (err) {
             console.log(err.response)
-            throw err
         }
 
         try {
@@ -312,8 +308,7 @@ describe('PATCH /user/', () => {
             tempVisitorToken = request.data.token
         }
         catch (err) {
-            console.log(err.response)
-            throw err
+            console.log(err.response) 
         }
 
         try {
@@ -351,7 +346,6 @@ describe('DELETE /user/', () => {
         }
         catch (err) {
             console.log(err.response)
-            throw err
         }
 
         try {
