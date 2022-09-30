@@ -1,4 +1,4 @@
-import { Router } from 'express';
+import { Router, Request, Response } from 'express';
 import prisma from '../config/database'
 import UserController from '../controllers/user.controller'
 import RelatoryController from '../controllers/relatory.controller';
@@ -9,7 +9,7 @@ const userController = new UserController(prisma)
 const relatoryController = new RelatoryController(prisma)
 const relatoryServices = new RelatoryServices(relatoryController)
 
-router.post('/', async (req, res) => {
+router.post('/', async (req: Request, res: Response) => {
     try {
         if (!req.body.cardid) {
             return res.status(400).json({ error: 'ID do cartão faltando' })
@@ -46,7 +46,7 @@ router.post('/', async (req, res) => {
     }
 })
 
-router.get('/', async (req, res) => {
+router.get('/', async (req: Request, res: Response) => {
     try {
         let user = await userController.getById(req.user.id)
 

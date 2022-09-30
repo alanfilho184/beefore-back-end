@@ -13,6 +13,7 @@ declare global {
         name: string;
         email: string;
         password: string;
+        telegram?: string;
         occupation?: string;
         type: UserTypes;
         linkedin?: string;

@@ -1,4 +1,4 @@
-import { Router } from 'express';
+import { Router, Request, Response } from 'express';
 import prisma from '../config/database'
 import UserController from '../controllers/user.controller'
 import AuthorizationController from '../controllers/authorization.controller';
@@ -10,7 +10,7 @@ const userController = new UserController(prisma)
 const authorizationController = new AuthorizationController(prisma)
 const userServices = new UserServices(userController)
 
-router.post('/', async (req, res) => {
+router.post('/', async (req: Request, res: Response) => {
     try {
         userServices.validateNewUser(req.body)
         await userServices.verifyDuplicate(req.body)
@@ -42,7 +42,7 @@ router.post('/', async (req, res) => {
     }
 })
 
-router.get('/', async (req, res) => {
+router.get('/', async (req: Request, res: Response) => {
     try {
         let user
 
@@ -106,7 +106,7 @@ router.get('/', async (req, res) => {
     }
 })
 
-router.patch('/', async (req, res) => {
+router.patch('/', async (req: Request, res: Response) => {
     try {
         let user = await userController.getById(req.user.id)
 
@@ -142,7 +142,7 @@ router.patch('/', async (req, res) => {
     }
 })
 
-router.delete('/', async (req, res) => {
+router.delete('/', async (req: Request, res: Response) => {
     try {
         if (await userController.getById(req.user.id)) {
             await userController.deleteById(req.user.id)

@@ -1,16 +1,15 @@
-import { Router } from 'express';
+import { Router, Request, Response } from 'express';
 import prisma from '../config/database'
 import UserController from '../controllers/user.controller'
 import AuthServices from '../services/auth.services';
 import UserServices from '../services/user.services';
-import mailer from '../utils/mailer'
 
 const router = Router()
 const userController = new UserController(prisma)
 const userServices = new UserServices(UserController)
 const authServices = new AuthServices()
 
-router.post('/login', async (req, res) => {
+router.post('/login', async (req: Request, res: Response) => {
     try {
         if (req.body.password && req.body.email) {
             let user = await userController.getByEmail(req.body.email)
@@ -39,21 +38,14 @@ router.post('/login', async (req, res) => {
     }
 });
 
-router.post('/recovery', async (req, res) => {
+router.post('/recovery', async (req: Request, res: Response) => {
     try {
         if (req.body.email && !req.body.token) {
             let user = await userController.getByEmail(req.body.email)
 
             if (user) {
+                return res.status(501).end()
                 const token = authServices.createRecoveryToken(user)
-                const mailInfo = await mailer.sendRecoveryEmail(user, token)
-
-                if (mailInfo.accepted.includes(user.email)) {
-                    res.status(200).json({ success: 'Email enviado com sucesso' })
-                }
-                else {
-                    res.status(400).json({ error: 'Email enviado mas não aceito pelo usuário' })
-                }
             }
             else {
                 res.status(404).json({ error: 'Usuário não encontrado' })

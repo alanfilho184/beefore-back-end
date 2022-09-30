@@ -1,11 +1,11 @@
-import { Router } from 'express';
+import { Router, Request, Response } from 'express';
 import prisma from '../config/database'
 import AuthorizationController from '../controllers/authorization.controller'
 
 const router = Router()
 const authorizationController = new AuthorizationController(prisma)
 
-router.get("/", async (req, res) => {
+router.get("/", async (req: Request, res: Response) => {
     try {
         if (req.user.type == "Coordinator") {
             const authorizations = await authorizationController.getAll();
@@ -27,7 +27,7 @@ router.get("/", async (req, res) => {
     }
 });
 
-router.put("/", async (req, res) => {
+router.put("/", async (req: Request, res: Response) => {
     try {
         if (req.user.type == "Coordinator") {
             const authorization = await authorizationController.getById(req.body.id);
