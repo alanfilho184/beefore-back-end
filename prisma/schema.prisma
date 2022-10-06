@@ -35,11 +35,11 @@ model User {
   name          String
   email         String          @unique
   password      String          @db.Text
-  telegram      String?         @unique
+  telegramid    String?         @unique
   occupation    String?
   type          UserType
   linkedin      String?         @db.Text
-  preferences   Json?           @default("{\"sendActionRegEmail\": true}")
+  preferences   Json?           @default("{\"sendActionReg\": true}")
   profileimage  String?         @db.Text
   Relatory      Relatory[]
   Authorization Authorization[]
@@ -65,6 +65,7 @@ model Authorization {
 model SyncCode {
   id         Int      @id @default(autoincrement())
   code       String   @unique
-  userid     Int   @unique
+  userid     Int      @unique
+  telegramid String   @unique
   expiration DateTime @db.Timestamptz()
 }

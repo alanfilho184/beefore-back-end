@@ -40,6 +40,14 @@ declare global {
         [time: string]: object
     }
 
+    type SyncCode = {
+        id?: number,
+        code: string,
+        userid: number,
+        telegramid: string,
+        expiration: Date
+    }
+
     namespace Express {
         interface Request {
             user: {
