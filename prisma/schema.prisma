@@ -61,3 +61,10 @@ model Authorization {
   laststatustime String
   data           Json
 }
+
+model SyncCode {
+  id         Int      @id @default(autoincrement())
+  code       String   @unique
+  userid     Int   @unique
+  expiration DateTime @db.Timestamptz()
+}

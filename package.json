@@ -1,6 +1,6 @@
 {
   "name": "beefore-back-end",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "description": "Trabalho de Projeto Integrador e Prog Para Internet 2022.1 ~ 2022.2",
   "main": "server.js",
   "scripts": {
@@ -54,6 +54,7 @@
     "luxon": "^3.0.1",
     "nodemailer": "^6.7.7",
     "pg": "^8.7.3",
-    "prisma": "^4.1.1"
+    "prisma": "^4.1.1",
+    "telegraf": "^4.10.0"
   }
 }
