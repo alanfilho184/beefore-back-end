@@ -43,7 +43,6 @@ declare global {
     type SyncCode = {
         id?: number,
         code: string,
-        userid: number,
         telegramid: string,
         expiration: Date
     }

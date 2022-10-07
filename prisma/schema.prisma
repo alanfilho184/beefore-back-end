@@ -65,7 +65,6 @@ model Authorization {
 model SyncCode {
   id         Int      @id @default(autoincrement())
   code       String   @unique
-  userid     Int      @unique
   telegramid String   @unique
   expiration DateTime @db.Timestamptz()
 }

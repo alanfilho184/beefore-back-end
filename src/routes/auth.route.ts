@@ -92,4 +92,8 @@ router.post('/recovery', async (req: Request, res: Response) => {
     }
 })
 
+router.post('/sincronizar', async (req: Request, res: Response) => {
+    
+})
+
 export default router
