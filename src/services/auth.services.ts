@@ -1,6 +1,7 @@
 import jwt from 'jsonwebtoken'
 import bcrypt from 'bcrypt'
 import crypto from 'crypto-js'
+import { cache } from '../utils/telegram/codeGenerator'
 
 export default class AuthServices {
     constructor() { }
@@ -45,5 +46,16 @@ export default class AuthServices {
         token = crypto.AES.encrypt(token, `${process.env.AES_KEY}`).toString()
 
         return token
+    }
+
+    verifyCode(code: string): SyncCode | false {
+        const codeInfo = cache.get(code)
+
+        if (codeInfo) {
+            return codeInfo
+        }
+        else {
+            return false
+        }
     }
 }

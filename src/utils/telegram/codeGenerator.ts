@@ -31,9 +31,12 @@ syncCodeController.deleteAllExpired()
                     catch (err) { }
                 })
 
-                cache.events.on('keyAutoDelete', async (key: string) => {
+                const deleteFromDb = async (key: string) => {
                     await syncCodeController.deleteByCode(key)
-                })
+                }
+
+                cache.events.on('keyAutoDelete', deleteFromDb)
+                cache.events.on('keyDelete', deleteFromDb)
             })
     })
 
@@ -66,3 +69,4 @@ function codeGenerator(telegramid: string) {
 }
 
 export default codeGenerator
+export { cache }

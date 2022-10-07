@@ -3,6 +3,8 @@ import prisma from '../config/database'
 import UserController from '../controllers/user.controller'
 import AuthServices from '../services/auth.services';
 import UserServices from '../services/user.services';
+import bot from '../utils/telegram/bot'
+import { cache } from '../utils/telegram/codeGenerator';
 
 const router = Router()
 const userController = new UserController(prisma)
@@ -93,7 +95,33 @@ router.post('/recovery', async (req: Request, res: Response) => {
 })
 
 router.post('/sincronizar', async (req: Request, res: Response) => {
-    
+    try {
+        if (req.user) {
+            if (req.body.code) {
+                const codeInfo = authServices.verifyCode(req.body.code)
+
+                if (codeInfo) {
+                    await userController.updateFieldById(req.user.id, 'telegramid', codeInfo.telegramid)
+                    bot.telegram.sendMessage(codeInfo.telegramid, `Sua conta está sincronizada com o email ${req.user.email}`)
+                    cache.delete(req.body.code)
+
+                    res.status(200).end({success: "Conta do Telegram sincronizada com sucesso"})
+                }
+                else{
+                    res.status(404).end({error: "Código de sincronização não encontrado ou expirado"})
+                }
+            }
+            else {
+                res.status(400).end({error: "Código de sincronização faltando"})
+            }
+        }
+        else {
+            res.status(401).end({error: "Usuário não autenticado"})
+        }
+    }
+    catch (err) {
+        res.status(500).end({error: err.message})
+    }
 })
 
 export default router

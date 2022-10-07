@@ -1,6 +1,6 @@
 {
   "name": "beefore-back-end",
-  "version": "0.6.1",
+  "version": "0.6.2",
   "description": "Trabalho de Projeto Integrador e Prog Para Internet 2022.1 ~ 2022.2",
   "main": "server.js",
   "scripts": {
