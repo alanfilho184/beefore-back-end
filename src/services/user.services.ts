@@ -42,6 +42,10 @@ export default class UserServices {
         if (!newUser.password) {
             throw new ValidationError('Senha inválida')
         }
+
+        if(newUser.type == 'Member' && !newUser.cardid?.match(/(^(\d){10})$/g)){
+            throw new ValidationError('ID do cartão inválido')
+        }
     }
 
     async verifyDuplicate(newUser: User) {

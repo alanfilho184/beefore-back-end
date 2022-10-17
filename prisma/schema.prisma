@@ -38,7 +38,6 @@ model User {
   telegramid    String?         @unique
   occupation    String?
   type          UserType
-  linkedin      String?         @db.Text
   preferences   Json?           @default("{\"sendActionReg\": true}")
   profileimage  String?         @db.Text
   Relatory      Relatory[]

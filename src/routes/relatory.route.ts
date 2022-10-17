@@ -9,6 +9,8 @@ const userController = new UserController(prisma)
 const relatoryController = new RelatoryController(prisma)
 const relatoryServices = new RelatoryServices(relatoryController)
 
+import bot from "../utils/telegram/bot"
+
 router.post('/', async (req: Request, res: Response) => {
     try {
         if (!req.body.cardid) {
@@ -30,9 +32,14 @@ router.post('/', async (req: Request, res: Response) => {
                 })
             }
 
-            // if (user.preferences.sendActionRegEmail) {
-            //     app.mailer.sendActionRegisteredEmail(user, actions)
-            // }
+            if (user.preferences.sendActionRegEmail && user.telegramid) {
+                bot.telegram.sendMessage(user.telegramid, 
+                    `${actions.action} registrada
+Olá, ${user.name}, este é seu comprovante de movimentação da Mambee
+Ação: ${actions.action}
+Data e Horário: ${actions.newActionDateTime.day} às ${actions.newActionDateTime.time}`
+                    )
+            }
 
             res.status(200).json({ success: 'Ação adicionada' })
         }

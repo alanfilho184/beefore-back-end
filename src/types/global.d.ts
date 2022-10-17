@@ -13,10 +13,9 @@ declare global {
         name: string;
         email: string;
         password: string;
-        telegram?: string;
+        telegramid?: string;
         occupation?: string;
         type: UserTypes;
-        linkedin?: string;
         preferences: object;
         profileimage?: string;
     }

@@ -68,8 +68,7 @@ router.get('/', async (req: Request, res: Response) => {
                         email: user.email,
                         profileimage: user.profileimage,
                         occupation: user.occupation,
-                        type: user.type,
-                        linkedin: user.linkedin
+                        type: user.type
                     })
                 })
 
@@ -94,7 +93,6 @@ router.get('/', async (req: Request, res: Response) => {
                 email: user.email,
                 occupation: user.occupation,
                 type: user.type,
-                linkedin: user.linkedin ? user.linkedin : null,
                 profileimage: user.profileimage ? user.profileimage : null,
                 preferences: user.preferences
             })
