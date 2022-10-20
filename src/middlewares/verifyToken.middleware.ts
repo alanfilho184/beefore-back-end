@@ -3,7 +3,7 @@ import AuthServices from '../services/auth.services'
 
 const authServices = new AuthServices()
 
-const excludeRoutes = ['POST|/auth/login', 'POST|/auth/recovery', 'POST|/user', 'POST|/relatory']
+const excludeRoutes = ['POST|/auth/login', 'POST|/auth/recovery', 'POST|/auth/token', 'POST|/user', 'POST|/relatory']
 
 export function verifyToken(req: Request, res: Response, next: NextFunction) {
     if (!excludeRoutes.includes(`${req.method}|${req.path.endsWith('/') ? req.path.substring(0, req.path.length - 1) : req.path}`)) {

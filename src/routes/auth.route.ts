@@ -38,7 +38,35 @@ router.post('/login', async (req: Request, res: Response) => {
         console.error(err)
         res.status(500).json({ error: 'Erro ao tentar autenticar' })
     }
-});
+})
+
+router.post('/token', async (req: Request, res: Response) => {
+    try {
+        if (req.headers.authorization) {
+            const tokenPayload = authServices.verifyToken(req.headers.authorization)
+
+            if (tokenPayload) {
+                let user = await userController.getById(tokenPayload.id)
+
+                if (user) {
+                    res.status(100).end()
+                }
+                else {
+                    res.status(404).json({ error: 'Usuário não encontrado' })
+                }
+            }
+            else{
+                res.status(401).json({error: 'Token inválido'})
+            }
+        }
+        else {
+            res.status(400).json({ error: 'Dados faltando ou incorretos' })
+        }
+    }
+    catch (err) {
+        res.status(500).json({ error: 'Erro ao tentar autenticar' })
+    }
+})
 
 router.post('/recovery', async (req: Request, res: Response) => {
     try {
@@ -105,22 +133,22 @@ router.post('/sincronizar', async (req: Request, res: Response) => {
                     bot.telegram.sendMessage(codeInfo.telegramid, `Sua conta está sincronizada com o email ${req.user.email}`)
                     cache.delete(req.body.code)
 
-                    res.status(200).end({success: "Conta do Telegram sincronizada com sucesso"})
+                    res.status(200).end({ success: "Conta do Telegram sincronizada com sucesso" })
                 }
-                else{
-                    res.status(404).end({error: "Código de sincronização não encontrado ou expirado"})
+                else {
+                    res.status(404).end({ error: "Código de sincronização não encontrado ou expirado" })
                 }
             }
             else {
-                res.status(400).end({error: "Código de sincronização faltando"})
+                res.status(400).end({ error: "Código de sincronização faltando" })
             }
         }
         else {
-            res.status(401).end({error: "Usuário não autenticado"})
+            res.status(401).end({ error: "Usuário não autenticado" })
         }
     }
     catch (err) {
-        res.status(500).end({error: err.message})
+        res.status(500).end({ error: err.message })
     }
 })
 
