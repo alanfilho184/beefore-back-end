@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.verifyToken = void 0;
 const auth_services_1 = __importDefault(require("../services/auth.services"));
 const authServices = new auth_services_1.default();
-const excludeRoutes = ['POST|/auth/login', 'POST|/auth/recovery', 'POST|/user', 'POST|/relatory'];
+const excludeRoutes = ['POST|/auth/login', 'POST|/auth/recovery', 'POST|/auth/token', 'POST|/user', 'POST|/relatory'];
 function verifyToken(req, res, next) {
     if (!excludeRoutes.includes(`${req.method}|${req.path.endsWith('/') ? req.path.substring(0, req.path.length - 1) : req.path}`)) {
         if (!req.headers.authorization) {

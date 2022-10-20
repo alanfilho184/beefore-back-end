@@ -50,7 +50,7 @@ function codeGenerator(telegramid) {
     });
     if (code == "0") {
         do {
-            code = Math.floor((Math.random() * 99999999)).toString();
+            code = Math.floor((Math.random() * 999999)).toString();
         } while (cache.has(code));
         cache.set(code, {
             telegramid: telegramid,

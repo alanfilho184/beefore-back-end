@@ -49,7 +49,7 @@ router.post('/token', async (req: Request, res: Response) => {
                 let user = await userController.getById(tokenPayload.id)
 
                 if (user) {
-                    res.status(100).end()
+                    res.status(200).end()
                 }
                 else {
                     res.status(404).json({ error: 'Usuário não encontrado' })
@@ -133,22 +133,22 @@ router.post('/sincronizar', async (req: Request, res: Response) => {
                     bot.telegram.sendMessage(codeInfo.telegramid, `Sua conta está sincronizada com o email ${req.user.email}`)
                     cache.delete(req.body.code)
 
-                    res.status(200).end({ success: "Conta do Telegram sincronizada com sucesso" })
+                    res.status(200).json({ success: "Conta do Telegram sincronizada com sucesso" })
                 }
                 else {
-                    res.status(404).end({ error: "Código de sincronização não encontrado ou expirado" })
+                    res.status(404).json({ error: "Código de sincronização não encontrado ou expirado" })
                 }
             }
             else {
-                res.status(400).end({ error: "Código de sincronização faltando" })
+                res.status(400).json({ error: "Código de sincronização faltando" })
             }
         }
         else {
-            res.status(401).end({ error: "Usuário não autenticado" })
+            res.status(401).json({ error: "Usuário não autenticado" })
         }
     }
     catch (err) {
-        res.status(500).end({ error: err.message })
+        res.status(500).json({ error: err.message })
     }
 })
 
