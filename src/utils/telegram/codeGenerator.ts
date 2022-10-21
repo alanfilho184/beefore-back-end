@@ -56,6 +56,10 @@ function codeGenerator(telegramid: string) {
     if (code == "0") {
         do {
             code = Math.floor((Math.random() * 999999)).toString()
+
+            while (code.length < 6){
+                code = "0" + code
+            }
         }
         while (cache.has(code))
 
