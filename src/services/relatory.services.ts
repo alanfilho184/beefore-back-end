@@ -6,7 +6,7 @@ export default class ReservationServices {
         this.Equipment = Equipment
     }
 
-    createAction(actualActions: Actions) {
+    createAction(actualActions: Actions | null) {
         const newActionDay = time.local({ zone: "America/Fortaleza" }).toFormat("dd/MM/yyyy")
         const newActionTime = time.local({ zone: "America/Fortaleza" }).toFormat("HH:mm:ss")
 

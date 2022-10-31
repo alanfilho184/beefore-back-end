@@ -1,11 +1,12 @@
 {
   "name": "beefore-back-end",
-  "version": "0.7.2",
+  "version": "0.7.3",
   "description": "Trabalho de Projeto Integrador e Prog Para Internet 2022.1 ~ 2022.2",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
     "build": "tsc",
+    "lint": "eslint . --ext .ts",
     "build-start": "tsc && node server.js",
     "test": "jest --forceExit",
     "build-test": "tsc && jest --forceExit"
@@ -32,7 +33,10 @@
     "@types/luxon": "^3.0.0",
     "@types/node": "^18.6.2",
     "@types/nodemailer": "^6.4.5",
+    "@typescript-eslint/eslint-plugin": "^5.40.1",
+    "@typescript-eslint/parser": "^5.40.1",
     "axios": "^0.27.2",
+    "eslint": "^8.26.0",
     "superagent": "^8.0.0",
     "ts-jest": "^28.0.7",
     "typescript": "^4.7.4"

@@ -28,7 +28,7 @@ syncCodeController.deleteAllExpired()
                             expiration: codeInfo.expiration
                         })
                     }
-                    catch (err) { }
+                    catch (err) { return }
                 })
 
                 const deleteFromDb = async (key: string) => {
@@ -42,7 +42,7 @@ syncCodeController.deleteAllExpired()
 
 
 function codeGenerator(telegramid: string) {
-    let code: string = "0"
+    let code = "0"
 
     cache.map.forEach((jsonCodeInfo: string) => {
         const codeInfo = JSON.parse(jsonCodeInfo)

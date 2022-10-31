@@ -32,13 +32,13 @@ router.post('/', async (req: Request, res: Response) => {
                 })
             }
 
-            if (user.preferences.sendActionRegEmail && user.telegramid) {
-                bot.telegram.sendMessage(user.telegramid, 
+            if (user.preferences.sendActionReg && user.telegramid) {
+                bot.telegram.sendMessage(user.telegramid,
                     `${actions.action} registrada
 Olá, ${user.name}, este é seu comprovante de movimentação da Mambee
 Ação: ${actions.action}
 Data e Horário: ${actions.newActionDateTime.day} às ${actions.newActionDateTime.time}`
-                    )
+                )
             }
 
             res.status(200).json({ success: 'Ação adicionada' })
@@ -55,7 +55,7 @@ Data e Horário: ${actions.newActionDateTime.day} às ${actions.newActionDateTim
 
 router.get('/', async (req: Request, res: Response) => {
     try {
-        let user = await userController.getById(req.user.id)
+        const user = await userController.getById(req.user.id)
 
         if (user) {
             if (user.type == 'Coordinator') {

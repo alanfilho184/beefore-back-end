@@ -4,8 +4,6 @@ import crypto from 'crypto-js'
 import { cache } from '../utils/telegram/codeGenerator'
 
 export default class AuthServices {
-    constructor() { }
-
     comparePassword(password: string, hash: string) {
         return bcrypt.compareSync(password, hash)
     }

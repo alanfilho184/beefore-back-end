@@ -57,9 +57,9 @@ router.get('/', async (req: Request, res: Response) => {
                 user = await userController.getByCardId(req.body.cardid)
             }
             else if (req.body.getAll) {
-                let users = await userController.getAll()
+                const users = await userController.getAll()
 
-                let allUsers = new Array()
+                const allUsers: Array<object> = []
                 users.forEach((user: User) => {
                     allUsers.push({
                         id: user.id,
@@ -85,7 +85,7 @@ router.get('/', async (req: Request, res: Response) => {
         if (!user) {
             res.status(404).json({ error: 'Usuário não encontrado' })
         }
-        else {   
+        else {
             res.status(200).json({
                 id: user.id,
                 cardid: user.cardid ? user.cardid : null,
@@ -106,7 +106,7 @@ router.get('/', async (req: Request, res: Response) => {
 
 router.patch('/', async (req: Request, res: Response) => {
     try {
-        let user = await userController.getById(req.user.id)
+        const user = await userController.getById(req.user.id)
 
         if (!user) {
             res.status(404).json({ error: 'Usuário não encontrado' })
@@ -120,7 +120,7 @@ router.patch('/', async (req: Request, res: Response) => {
                 delete req.body.modify.id
             }
 
-            var newUser = Object.assign({}, user, req.body.modify)
+            const newUser = Object.assign({}, user, req.body.modify)
 
             userServices.validateNewUser(newUser)
             await userServices.verifyDuplicateModified(newUser)

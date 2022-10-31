@@ -7,6 +7,10 @@ declare global {
     type EquipamentStatus = 'Avaliable' | 'Reserved'
     type Action = 'Entrada' | 'Saida'
 
+    type Preferences = {
+        sendActionReg: boolean
+    }
+
     type User = {
         id: number;
         cardid?: string;
@@ -16,7 +20,7 @@ declare global {
         telegramid?: string;
         occupation?: string;
         type: UserTypes;
-        preferences: object;
+        preferences: Preferences;
         profileimage?: string;
     }
 
@@ -32,7 +36,7 @@ declare global {
     type Relatory = {
         id?: number,
         userid: number,
-        actions: object
+        actions: Actions
     }
 
     type Actions = {
