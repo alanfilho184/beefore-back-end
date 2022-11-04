@@ -1,6 +1,7 @@
 import express from 'express';
 import cors from 'cors';
-// import helmet from 'helmet';
+import helmet from 'helmet';
+import cookieParser from 'cookie-parser'
 import { config } from './config/config';
 import { checkConnection } from './config/database'
 import middlewares from './middlewares'
@@ -10,10 +11,14 @@ import bot from './utils/telegram/bot'
 const app = express()
 
 const configureExpress = () => {
+    app.use(helmet())
     app.use(cors({
-        origin: process.env.CORS_ORIGIN
+        origin: process.env.CORS_ORIGIN?.split(','),
+        credentials: true,
+        methods: [ 'GET', 'POST', 'PATCH', 'DELETE', 'HEAD']
     }))
     app.use(express.json())
+    app.use(cookieParser())
     app.use(middlewares)
     app.use(config.default.API_BASE, routes)
 

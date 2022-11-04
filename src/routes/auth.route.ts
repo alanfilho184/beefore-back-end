@@ -18,7 +18,7 @@ router.post('/login', async (req: Request, res: Response) => {
                 if (authServices.comparePassword(req.body.password, user.password)) {
                     const token = authServices.createToken(user)
 
-                    res.status(200).json({ token: token })
+                    res.cookie('token', token, { maxAge: 7 * 24 * 60 * 60 * 1000, httpOnly: true, secure: false }).end()
                 }
                 else {
                     res.status(401).json({ error: 'Senha incorreta' })
@@ -33,15 +33,14 @@ router.post('/login', async (req: Request, res: Response) => {
         }
     }
     catch (err) {
-        console.error(err)
         res.status(500).json({ error: 'Erro ao tentar autenticar' })
     }
 })
 
 router.post('/token', async (req: Request, res: Response) => {
     try {
-        if (req.headers.authorization) {
-            const tokenPayload = authServices.verifyToken(req.headers.authorization)
+        if (req.cookies.token) {
+            const tokenPayload = authServices.verifyToken(req.cookies.token)
 
             if (tokenPayload) {
                 const user = await userController.getById(tokenPayload.id)
@@ -50,18 +49,22 @@ router.post('/token', async (req: Request, res: Response) => {
                     res.status(200).end()
                 }
                 else {
+                    res.clearCookie('token')
                     res.status(404).json({ error: 'Usuário não encontrado' })
                 }
             }
-            else{
-                res.status(401).json({error: 'Token inválido'})
+            else {
+                res.clearCookie('token')
+                res.status(401).json({ error: 'Token inválido' })
             }
         }
         else {
+            res.clearCookie('token')
             res.status(400).json({ error: 'Dados faltando ou incorretos' })
         }
     }
     catch (err) {
+        res.clearCookie('token')
         res.status(500).json({ error: 'Erro ao tentar autenticar' })
     }
 })

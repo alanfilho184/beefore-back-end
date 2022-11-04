@@ -1,6 +1,5 @@
 import jwt from 'jsonwebtoken'
 import bcrypt from 'bcrypt'
-import crypto from 'crypto-js'
 import { cache } from '../utils/telegram/codeGenerator'
 
 export default class AuthServices {
@@ -10,40 +9,27 @@ export default class AuthServices {
 
     createToken(user: User) {
         const payload = {
-            id: user.id,
-            email: user.email,
-            name: user.name,
-            preferences: user.preferences,
-            type: user.type,
+            id: user.id
         }
 
         let token = jwt.sign(payload, `${process.env.JWT_KEY}`)
 
-        token = crypto.AES.encrypt(token, `${process.env.AES_KEY}`).toString()
         return token
     }
 
     verifyToken(token: string) {
-        token = crypto.AES.decrypt(token, `${process.env.AES_KEY}`).toString(crypto.enc.Utf8)
-        const payload = jwt.verify(token, `${process.env.JWT_KEY}`)
-        if (typeof payload != 'string') {
-            return payload
+        try {
+            const payload = jwt.verify(token, `${process.env.JWT_KEY}`)
+            if (typeof payload != 'string') {
+                return payload
+            }
+            else {
+                return false
+            }
         }
-        else {
+        catch (err) {
             return false
         }
-    }
-
-    createRecoveryToken(user: User) {
-        const payload = {
-            id: user.id,
-            email: user.email
-        }
-
-        let token = jwt.sign(payload, `${process.env.JWT_KEY}`, { expiresIn: '1h' })
-        token = crypto.AES.encrypt(token, `${process.env.AES_KEY}`).toString()
-
-        return token
     }
 
     verifyCode(code: string): SyncCode | false {
