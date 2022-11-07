@@ -18,7 +18,7 @@ router.post('/login', async (req: Request, res: Response) => {
                 if (authServices.comparePassword(req.body.password, user.password)) {
                     const token = authServices.createToken(user)
 
-                    res.cookie('token', token, { maxAge: 7 * 24 * 60 * 60 * 1000, httpOnly: true, secure: false }).end()
+                    res.cookie('token', token, { maxAge: 7 * 24 * 60 * 60 * 1000, httpOnly: true, secure: process.env.NODE_ENV == "production" }).end()
                 }
                 else {
                     res.status(401).json({ error: 'Senha incorreta' })

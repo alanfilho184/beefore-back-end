@@ -11,9 +11,10 @@ import bot from './utils/telegram/bot'
 const app = express()
 
 const configureExpress = () => {
+    console.log(config.default.CORS_ORIGIN)
     app.use(helmet())
     app.use(cors({
-        origin: process.env.CORS_ORIGIN?.split(','),
+        origin: config.default.CORS_ORIGIN,
         credentials: true,
         methods: [ 'GET', 'POST', 'PATCH', 'DELETE', 'HEAD']
     }))
