@@ -1,6 +1,6 @@
 {
   "name": "beefore-back-end",
-  "version": "0.7.6",
+  "version": "0.7.7",
   "description": "Trabalho de Projeto Integrador e Prog Para Internet 2022.1 ~ 2022.2",
   "main": "server.js",
   "scripts": {
@@ -50,7 +50,6 @@
     "@prisma/client": "^4.1.1",
     "bcrypt": "^5.0.1",
     "colors": "^1.4.0",
-    "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "crypto-js": "^4.1.1",
     "dotenv": "^16.0.1",

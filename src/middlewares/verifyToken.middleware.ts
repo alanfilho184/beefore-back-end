@@ -10,12 +10,12 @@ const excludeRoutes = ['POST|/auth/login', 'POST|/auth/recovery', 'POST|/auth/to
 
 export async function verifyToken(req: Request, res: Response, next: NextFunction) {
     if (!excludeRoutes.includes(`${req.method}|${req.path.endsWith('/') ? req.path.substring(0, req.path.length - 1) : req.path}`)) {
-        if (!req.cookies.token) {
+        if (!req.headers.authorization) {
             return res.status(401).json({ error: 'Token não encontrado', });
         }
         else {
             try {
-                const userId = authServices.verifyToken(req.cookies.token)
+                const userId = authServices.verifyToken(req.headers.authorization)
 
                 if (!userId) {
                     return res.status(401).json({ error: 'Token inválido', });

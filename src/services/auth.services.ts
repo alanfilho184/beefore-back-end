@@ -12,7 +12,7 @@ export default class AuthServices {
             id: user.id
         }
 
-        let token = jwt.sign(payload, `${process.env.JWT_KEY}`)
+        let token = jwt.sign(payload, `${process.env.JWT_KEY}`, { expiresIn: '7d' })
 
         return token
     }
