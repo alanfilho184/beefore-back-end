@@ -23,11 +23,11 @@ export default class LogHandler {
     public updateActualLogFile(log: string) {
         const day = DateTime.now().setZone('America/Fortaleza').toFormat('dd-LL-yyyy')
 
-        if (`log-${day}.log` == this.actualLogFile) {
+        if (path.join(__dirname, `log-${day}.log`) == this.actualLogFile) {
             fs.appendFileSync(this.actualLogFile, log)
         } else {
             fs.writeFileSync(path.join(__dirname, `log-${day}.log`), '')
-            this.actualLogFile == `log-${day}.log`
+            this.actualLogFile == path.join(__dirname, `log-${day}.log`)
             fs.appendFileSync(this.actualLogFile, log)
         }
     }
