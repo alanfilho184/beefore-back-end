@@ -1,5 +1,5 @@
-import { Context, Telegraf } from "telegraf";
-import codeGenerator from "./codeGenerator";
+import { Context, Telegraf } from 'telegraf'
+import codeGenerator from './codeGenerator'
 
 const bot = new Telegraf(`${process.env.BOT_TOKEN}`)
 

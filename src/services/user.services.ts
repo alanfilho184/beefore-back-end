@@ -4,15 +4,15 @@ const userType = ['Coordinator', 'Member', 'Visitor']
 
 class ValidationError extends Error {
     constructor(message: string) {
-        super(message);
-        this.name = 'ValidationError';
+        super(message)
+        this.name = 'ValidationError'
     }
 }
 
 class DuplicationError extends Error {
     constructor(message: string) {
-        super(message);
-        this.name = 'DuplicationError';
+        super(message)
+        this.name = 'DuplicationError'
     }
 }
 
@@ -27,11 +27,19 @@ export default class UserServices {
     }
 
     validateNewUser(newUser: User): void {
-        if (!newUser.name || !newUser.name.match(/^[a-zA-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ]{2,}(?: [a-zA-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ]+){0,8}$/g)) {
+        if (
+            !newUser.name ||
+            !newUser.name.match(/^[a-zA-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ]{2,}(?: [a-zA-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ]+){0,8}$/g)
+        ) {
             throw new ValidationError('Nome inválido')
         }
 
-        if (!newUser.email || !newUser.email.match(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/g)) {
+        if (
+            !newUser.email ||
+            !newUser.email.match(
+                /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/g,
+            )
+        ) {
             throw new ValidationError('Email inválido')
         }
 
@@ -43,7 +51,7 @@ export default class UserServices {
             throw new ValidationError('Senha inválida')
         }
 
-        if(newUser.type == 'Member' && !newUser.cardid?.match(/(^(\d){10})$/g)){
+        if (newUser.type == 'Member' && !newUser.cardid?.match(/(^(\d){10})$/g)) {
             throw new ValidationError('ID do cartão inválido')
         }
     }

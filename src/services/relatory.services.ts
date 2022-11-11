@@ -7,57 +7,55 @@ export default class ReservationServices {
     }
 
     createAction(actualActions: Actions | null) {
-        const newActionDay = time.local({ zone: "America/Fortaleza" }).toFormat("dd/MM/yyyy")
-        const newActionTime = time.local({ zone: "America/Fortaleza" }).toFormat("HH:mm:ss")
+        const newActionDay = time.local({ zone: 'America/Fortaleza' }).toFormat('dd/MM/yyyy')
+        const newActionTime = time.local({ zone: 'America/Fortaleza' }).toFormat('HH:mm:ss')
 
         let newAction: any
         if (actualActions == null) {
             newAction = {
                 [newActionDay]: {
-                    [newActionTime]: "Entrada"
-                }
+                    [newActionTime]: 'Entrada',
+                },
             }
 
             return {
                 newAction: newAction,
-                action: "Entrada",
-                newActionDateTime: { day: newActionDay, time: newActionTime }
+                action: 'Entrada',
+                newActionDateTime: { day: newActionDay, time: newActionTime },
             }
-        }
-        else {
+        } else {
             const userActions = Object.entries(actualActions[newActionDay])
 
             let newerAction: any
             let lastAction
-            userActions.forEach((action) => {
-                const actionTime = time.fromFormat(action[0], "HH:mm:ss")
+            userActions.forEach(action => {
+                const actionTime = time.fromFormat(action[0], 'HH:mm:ss')
 
                 if (!newerAction) {
                     newAction = actionTime
                     lastAction = action[1]
-                }
-                else {
+                } else {
                     if (actionTime.toMillis() >= newerAction.toMillis()) {
-                        newerAction = actionTime.toFormat("HH:mm:ss")
+                        newerAction = actionTime.toFormat('HH:mm:ss')
                         lastAction = action[1]
                     }
                 }
             })
 
-            const action = lastAction == "Entrada" ? "Saida" : "Entrada"
+            const action = lastAction == 'Entrada' ? 'Saida' : 'Entrada'
 
             newAction = {
                 ...actualActions,
                 [newActionDay]: {
-                    ...actualActions[newActionDay] || {},
-                    [newActionTime]: action
-                }
+                    ...(actualActions[newActionDay] || {}),
+                    [newActionTime]: action,
+                },
             }
 
             return {
                 newAction: newAction,
                 action: action,
-                newActionDateTime: { day: newActionDay, time: newActionTime }
+                newActionDateTime: { day: newActionDay, time: newActionTime },
             }
         }
     }

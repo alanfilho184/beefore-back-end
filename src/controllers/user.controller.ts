@@ -6,7 +6,7 @@ export default class UserController {
 
     async create(newUser: User): Promise<User> {
         return await this.prisma.User.create({
-            data: newUser
+            data: newUser,
         })
     }
 
@@ -29,22 +29,22 @@ export default class UserController {
     async updateById(userId: number, newUser: User): Promise<User> {
         return await this.prisma.User.update({
             where: {
-                id: userId
+                id: userId,
             },
             data: {
-                ...newUser
-            }
+                ...newUser,
+            },
         })
     }
 
     async updateFieldById(userId: number, field: string, value: string): Promise<User> {
         return await this.prisma.User.update({
             where: {
-                id: userId
+                id: userId,
             },
             data: {
-                [field]: value
-            }
+                [field]: value,
+            },
         })
     }
 
@@ -53,14 +53,14 @@ export default class UserController {
 
         return await this.prisma.User.update({
             where: {
-                id: userId
+                id: userId,
             },
             data: {
                 preferences: {
                     ...user.preferences,
-                    [preference]: value
-                }
-            }
+                    [preference]: value,
+                },
+            },
         })
     }
 
@@ -75,4 +75,4 @@ export default class UserController {
     async deleteByCardId(cardid: string): Promise<void> {
         return await this.prisma.User.delete({ where: { cardid: cardid } })
     }
-}   
+}

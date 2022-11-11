@@ -1,14 +1,16 @@
-import { Router, Request, Response } from 'express';
+import { Router, Request, Response } from 'express'
 import prisma from '../config/database'
 import UserController from '../controllers/user.controller'
-import AuthorizationController from '../controllers/authorization.controller';
+import AuthorizationController from '../controllers/authorization.controller'
 import UserServices from '../services/user.services'
 import { DateTime as time } from 'luxon'
+import LogHandler from '../logs'
 
 const router = Router()
 const userController = new UserController(prisma)
 const authorizationController = new AuthorizationController(prisma)
 const userServices = new UserServices(userController)
+const logHandler = new LogHandler()
 
 router.post('/', async (req: Request, res: Response) => {
     try {
@@ -21,23 +23,20 @@ router.post('/', async (req: Request, res: Response) => {
                 status: 'Pending',
                 laststatustime: `${time.local({ zone: 'America/Fortaleza' }).toFormat('dd/MM/yyyy|HH:mm:ss')}`,
                 type: 'User',
-                data: req.body
+                data: req.body,
             })
 
             res.status(201).json({ id: authorization.id })
-        }
-        else {
+        } else {
             const user = await userController.create(req.body)
             res.status(201).json({ id: user.id })
         }
-    }
-    catch (err) {
+    } catch (err) {
         if (err.name == 'ValidationError' || err.name == 'DuplicationError') {
             res.status(400).json({ error: err.message })
-        }
-        else {
-            console.error(err)
+        } else {
             res.status(500).json({ error: 'Erro ao tentar cadastrar' })
+            logHandler.registerError(err)
         }
     }
 })
@@ -49,14 +48,11 @@ router.get('/', async (req: Request, res: Response) => {
         if (req.user.type == 'Coordinator') {
             if (req.body.email) {
                 user = await userController.getByEmail(req.body.email)
-            }
-            else if (req.body.id) {
+            } else if (req.body.id) {
                 user = await userController.getById(req.body.id)
-            }
-            else if (req.body.cardid) {
+            } else if (req.body.cardid) {
                 user = await userController.getByCardId(req.body.cardid)
-            }
-            else if (req.body.getAll) {
+            } else if (req.body.getAll) {
                 const users = await userController.getAll()
 
                 const allUsers: Array<object> = []
@@ -68,24 +64,21 @@ router.get('/', async (req: Request, res: Response) => {
                         email: user.email,
                         profileimage: user.profileimage,
                         occupation: user.occupation,
-                        type: user.type
+                        type: user.type,
                     })
                 })
 
                 return res.status(200).json(allUsers)
-            }
-            else {
+            } else {
                 user = await userController.getById(req.user.id)
             }
-        }
-        else {
+        } else {
             user = await userController.getById(req.user.id)
         }
 
         if (!user) {
             res.status(404).json({ error: 'Usuário não encontrado' })
-        }
-        else {
+        } else {
             res.status(200).json({
                 id: user.id,
                 cardid: user.cardid ? user.cardid : null,
@@ -94,13 +87,12 @@ router.get('/', async (req: Request, res: Response) => {
                 occupation: user.occupation,
                 type: user.type,
                 profileimage: user.profileimage ? user.profileimage : null,
-                preferences: user.preferences
+                preferences: user.preferences,
             })
         }
-    }
-    catch (err) {
-        console.error(err)
+    } catch (err) {
         res.status(500).json({ error: 'Erro ao tentar retornar usuário' })
+        logHandler.registerError(err)
     }
 })
 
@@ -110,8 +102,7 @@ router.patch('/', async (req: Request, res: Response) => {
 
         if (!user) {
             res.status(404).json({ error: 'Usuário não encontrado' })
-        }
-        else {
+        } else {
             if (req.body.modify.password) {
                 req.body.modify.password = userServices.hashPassword(req.body.modify.password)
             }
@@ -128,14 +119,12 @@ router.patch('/', async (req: Request, res: Response) => {
             await userController.updateById(user.id, newUser)
             res.status(200).json({ success: 'Usuário atualizado' })
         }
-    }
-    catch (err) {
+    } catch (err) {
         if (err.name == 'ValidationError' || err.name == 'DuplicationError') {
             res.status(400).json({ error: err.message })
-        }
-        else {
-            console.error(err)
+        } else {
             res.status(500).json({ error: 'Erro ao tentar modificar usuário' })
+            logHandler.registerError(err)
         }
     }
 })
@@ -145,14 +134,12 @@ router.delete('/', async (req: Request, res: Response) => {
         if (await userController.getById(req.user.id)) {
             await userController.deleteById(req.user.id)
             res.status(200).json({ success: 'Usuário deletado' })
-        }
-        else {
+        } else {
             res.status(404).json({ error: 'Usuário não encontrado' })
         }
-    }
-    catch (err) {
-        console.error(err)
+    } catch (err) {
         res.status(500).json({ error: 'Erro ao tentar deletar usuário' })
+        logHandler.registerError(err)
     }
 })
 

@@ -6,12 +6,14 @@ export default class RelatoryController {
 
     async create(newRelatory: Relatory): Promise<Relatory> {
         return await this.prisma.Relatory.create({
-            data: newRelatory
+            data: newRelatory,
         })
     }
 
     async getByUserId(userid: number): Promise<Relatory> {
-        return await this.prisma.Relatory.findUnique({ where: { userid: userid } })
+        return await this.prisma.Relatory.findUnique({
+            where: { userid: userid },
+        })
     }
 
     async getAll(): Promise<Array<Relatory>> {
@@ -19,7 +21,10 @@ export default class RelatoryController {
     }
 
     async updateActionsByUserId(userid: number, newAction: Action): Promise<Relatory> {
-        return await this.prisma.Relatory.update({ data: { actions: newAction }, where: { userid: userid } })
+        return await this.prisma.Relatory.update({
+            data: { actions: newAction },
+            where: { userid: userid },
+        })
     }
 
     async deleteByUserId(userid: number): Promise<void> {

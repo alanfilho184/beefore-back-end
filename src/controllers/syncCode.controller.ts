@@ -1,4 +1,4 @@
-import { DateTime as time } from "luxon"
+import { DateTime as time } from 'luxon'
 export default class SyncCodeController {
     prisma: any
     constructor(prisma: any) {
@@ -22,7 +22,9 @@ export default class SyncCodeController {
     }
 
     async getByTelegramId(telegramid: string): Promise<SyncCode> {
-        return await this.prisma.SyncCode.findUnique({ where: { telegramid: telegramid } })
+        return await this.prisma.SyncCode.findUnique({
+            where: { telegramid: telegramid },
+        })
     }
 
     async deleteById(id: number): Promise<void> {
@@ -51,8 +53,8 @@ export default class SyncCodeController {
 
         return await this.prisma.SyncCode.deleteMany({
             where: {
-                id: { in: ids }
-            }
+                id: { in: ids },
+            },
         })
     }
 }

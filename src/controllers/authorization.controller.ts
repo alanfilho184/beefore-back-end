@@ -6,9 +6,10 @@ export default class AuthorizationController {
 
     async getAll(type?: AuthorizationTypes): Promise<Array<Authorization>> {
         if (type) {
-            return await this.prisma.Authorization.findMany({ where: { type: type } })
-        }
-        else {
+            return await this.prisma.Authorization.findMany({
+                where: { type: type },
+            })
+        } else {
             return await this.prisma.Authorization.findMany()
         }
     }
@@ -18,7 +19,9 @@ export default class AuthorizationController {
     }
 
     async getByUserId(userId: number): Promise<Authorization> {
-        return await this.prisma.Authorization.findUnique({ where: { userid: userId } })
+        return await this.prisma.Authorization.findUnique({
+            where: { userid: userId },
+        })
     }
 
     async create(authorization: Authorization): Promise<Authorization> {
@@ -26,7 +29,10 @@ export default class AuthorizationController {
     }
 
     async updateFieldById(id: number, field: string, value: string): Promise<Authorization> {
-        return await this.prisma.Authorization.update({ where: { id: id }, data: { [field]: value } })
+        return await this.prisma.Authorization.update({
+            where: { id: id },
+            data: { [field]: value },
+        })
     }
 
     async deleteById(id: number): Promise<void> {
@@ -38,7 +44,9 @@ export default class AuthorizationController {
             if (authorization.type == 'Reservation') {
                 this.prisma.Reservation.create({ data: authorization.data })
                     .then(() => {
-                        this.prisma.Authorization.delete({ where: { id: authorization.id } })
+                        this.prisma.Authorization.delete({
+                            where: { id: authorization.id },
+                        })
                             .then(() => {
                                 resolve(true)
                             })
@@ -49,11 +57,12 @@ export default class AuthorizationController {
                     .catch((err: any) => {
                         reject(err)
                     })
-            }
-            else if (authorization.type == 'User') {
+            } else if (authorization.type == 'User') {
                 this.prisma.User.create(authorization.data)
                     .then(() => {
-                        this.prisma.Authorization.delete({ where: { id: authorization.id } })
+                        this.prisma.Authorization.delete({
+                            where: { id: authorization.id },
+                        })
                             .then(() => {
                                 resolve(true)
                             })
@@ -69,6 +78,8 @@ export default class AuthorizationController {
     }
 
     async deny(authorization: Authorization): Promise<void> {
-        return await this.prisma.Authorization.delete({ where: { id: authorization.id } })
+        return await this.prisma.Authorization.delete({
+            where: { id: authorization.id },
+        })
     }
 }

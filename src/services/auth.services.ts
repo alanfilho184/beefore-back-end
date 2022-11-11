@@ -9,10 +9,12 @@ export default class AuthServices {
 
     createToken(user: User) {
         const payload = {
-            id: user.id
+            id: user.id,
         }
 
-        let token = jwt.sign(payload, `${process.env.JWT_KEY}`, { expiresIn: '7d' })
+        const token = jwt.sign(payload, `${process.env.JWT_KEY}`, {
+            expiresIn: '7d',
+        })
 
         return token
     }
@@ -22,12 +24,10 @@ export default class AuthServices {
             const payload = jwt.verify(token, `${process.env.JWT_KEY}`)
             if (typeof payload != 'string') {
                 return payload
-            }
-            else {
+            } else {
                 return false
             }
-        }
-        catch (err) {
+        } catch (err) {
             return false
         }
     }
@@ -37,8 +37,7 @@ export default class AuthServices {
 
         if (codeInfo) {
             return codeInfo
-        }
-        else {
+        } else {
             return false
         }
     }
