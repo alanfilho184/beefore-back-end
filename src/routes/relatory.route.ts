@@ -1,12 +1,14 @@
 import { Router, Request, Response } from 'express'
 import prisma from '../config/database'
 import UserController from '../controllers/user.controller'
+import ActualUsageController from '../controllers/actualUsage.controller'
 import RelatoryController from '../controllers/relatory.controller'
 import RelatoryServices from '../services/relatory.services'
 import LogHandler from '../logs'
 
 const router = Router()
 const userController = new UserController(prisma)
+const actualUsageController = new ActualUsageController(prisma)
 const relatoryController = new RelatoryController(prisma)
 const relatoryServices = new RelatoryServices(relatoryController)
 const logHandler = new LogHandler()
@@ -41,6 +43,12 @@ Olá, ${user.name}, este é seu comprovante de movimentação da Mambee
 Ação: ${actions.action}
 Data e Horário: ${actions.newActionDateTime.day} às ${actions.newActionDateTime.time}`,
                 )
+            }
+
+            if (actions.action == 'Entrada') {
+                actualUsageController.addOne(user.id)
+            } else {
+                actualUsageController.removeOne(user.id)
             }
 
             res.status(200).json({ success: 'Ação adicionada' })

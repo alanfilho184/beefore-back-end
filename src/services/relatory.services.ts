@@ -24,7 +24,13 @@ export default class ReservationServices {
                 newActionDateTime: { day: newActionDay, time: newActionTime },
             }
         } else {
-            const userActions = Object.entries(actualActions[newActionDay])
+            let userActions: any[]
+            if (actualActions[newActionDay]) {
+                userActions = Object.entries(actualActions[newActionDay])
+            }
+            else {
+                userActions = []
+            }
 
             let newerAction: any
             let lastAction

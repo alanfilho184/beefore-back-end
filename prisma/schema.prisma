@@ -42,6 +42,7 @@ model User {
   profileimage  String?         @db.Text
   Relatory      Relatory[]
   Authorization Authorization[]
+  ActualUsage   ActualUsage?
 }
 
 model Relatory {
@@ -66,4 +67,10 @@ model SyncCode {
   code       String   @unique
   telegramid String   @unique
   expiration DateTime @db.Timestamptz()
+}
+
+model ActualUsage {
+  id     Int  @id @default(autoincrement())
+  userId User @relation(references: [id], fields: [userid])
+  userid Int  @unique
 }
