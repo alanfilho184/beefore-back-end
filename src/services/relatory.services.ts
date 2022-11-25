@@ -27,8 +27,7 @@ export default class ReservationServices {
             let userActions: any[]
             if (actualActions[newActionDay]) {
                 userActions = Object.entries(actualActions[newActionDay])
-            }
-            else {
+            } else {
                 userActions = []
             }
 

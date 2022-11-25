@@ -8,7 +8,7 @@ export default class ActualUsageController {
         return await this.prisma.ActualUsage.create({
             data: {
                 userid: userid,
-            }
+            },
         })
     }
 
@@ -16,11 +16,11 @@ export default class ActualUsageController {
         return await this.prisma.ActualUsage.delete({
             where: {
                 userid: userid,
-            }
+            },
         })
     }
 
-    async getUsage(){
+    async getUsage() {
         return await this.prisma.ActualUsage.count()
     }
 }
