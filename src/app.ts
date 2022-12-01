@@ -6,6 +6,7 @@ import { checkConnection } from './config/database'
 import middlewares from './middlewares'
 import routes from './routes'
 import bot from './utils/telegram/bot'
+import websocket from './websocket'
 
 const app = express()
 
@@ -14,15 +15,19 @@ const configureExpress = () => {
     app.use(helmet())
     app.use(
         cors({
-            origin: config.default.CORS_ORIGIN,
-            methods: ['GET', 'POST', 'PATCH', 'DELETE', 'HEAD'],
-        }),
+            origin: config.default.CORS_ORIGIN
+        })
     )
     app.use(express.json())
     app.use(middlewares)
     app.use(config.default.API_BASE, routes)
 
     bot.launch()
+
+    app.start = (port: number, callback: () => void) => {
+        const server = app.listen(port, callback)
+        websocket(server)
+    }
 
     return app
 }

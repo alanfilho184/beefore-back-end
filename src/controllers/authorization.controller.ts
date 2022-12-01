@@ -58,7 +58,7 @@ export default class AuthorizationController {
                         reject(err)
                     })
             } else if (authorization.type == 'User') {
-                this.prisma.User.create(authorization.data)
+                this.prisma.User.create({ data: authorization.data })
                     .then(() => {
                         this.prisma.Authorization.delete({
                             where: { id: authorization.id },

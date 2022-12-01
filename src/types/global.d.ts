@@ -51,6 +51,9 @@ declare global {
     }
 
     namespace Express {
+        interface Application {
+            start: function
+        }
         interface Request {
             startTime: number
             user: {

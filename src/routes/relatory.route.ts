@@ -4,6 +4,7 @@ import UserController from '../controllers/user.controller'
 import ActualUsageController from '../controllers/actualUsage.controller'
 import RelatoryController from '../controllers/relatory.controller'
 import RelatoryServices from '../services/relatory.services'
+import { Events as websocketEvents } from '../websocket'
 import LogHandler from '../logs'
 
 const router = Router()
@@ -46,9 +47,13 @@ Data e Horário: ${actions.newActionDateTime.day} às ${actions.newActionDateTim
             }
 
             if (actions.action == 'Entrada') {
-                actualUsageController.addOne(user.id)
+                actualUsageController.addOne(user.id).then(() => {
+                    websocketEvents.emit('updateActualUsage')
+                })
             } else {
-                actualUsageController.removeOne(user.id)
+                actualUsageController.removeOne(user.id).then(() => {
+                    websocketEvents.emit('updateActualUsage')
+                })
             }
 
             res.status(200).json({ success: 'Ação adicionada' })

@@ -5,7 +5,7 @@ const { setupApp } = require('./dist/app')
 
 setupApp
     .then((app) => { 
-        app.listen(config.default.PORT, () => console.info(`Listening port ${config.default.PORT}`))
+        app.start(config.default.PORT, () => console.info(`Listening port ${config.default.PORT}`))
      })
     .catch((err) => {
         console.error(err)

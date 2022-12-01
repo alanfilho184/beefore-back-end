@@ -3,6 +3,7 @@ import AuthServices from '../services/auth.services'
 import prisma from '../config/database'
 import UserController from '../controllers/user.controller'
 import { DateTime } from 'luxon'
+import { Socket } from 'socket.io'
 
 const userController = new UserController(prisma)
 const authServices = new AuthServices()
@@ -38,5 +39,27 @@ export async function verifyToken(req: Request, res: Response, next: NextFunctio
         }
     } else {
         return next()
+    }
+}
+
+export async function verifyTokenWebsocket(socket: Socket, next: (Error?: Error) => void) {
+    if (!socket.handshake.headers.authorization) {
+        socket.disconnect(true)
+        next(new Error('Token não encontrado'))
+    }
+    else{
+        try {
+            const userId = authServices.verifyToken(socket.handshake.headers.authorization)
+
+            if (!userId) {
+                socket.disconnect(true)
+                next(new Error('Token inválido'))
+            } else {
+                next()
+            }
+        } catch (err) {
+            socket.disconnect(true)
+            next(new Error('Erro ao tentar validar token'))
+        }
     }
 }

@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction } from 'express'
+import { Socket } from 'socket.io'
 import { DateTime } from 'luxon'
 import color from 'colors'
 import LogHandler from '../logs'

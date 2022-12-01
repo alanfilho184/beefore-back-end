@@ -35,7 +35,7 @@ router.get('/', async (req: Request, res: Response) => {
 router.put('/', async (req: Request, res: Response) => {
     try {
         if (req.user.type == 'Coordinator') {
-            const authorization = await authorizationController.getById(req.body.id)
+            const authorization = await authorizationController.getById(parseInt(req.body.id))
 
             if (authorization) {
                 if (authorization.status == 'Pending') {
