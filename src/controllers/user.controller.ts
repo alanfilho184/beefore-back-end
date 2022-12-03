@@ -26,6 +26,10 @@ export default class UserController {
         return await this.prisma.User.findMany()
     }
 
+    async searchByName(name: string): Promise<Array<User>> {
+        return await this.prisma.$queryRaw`SELECT * FROM "User" WHERE type = 'Member' AND SIMILARITY(name, ${name}) > 0.45`
+    }
+
     async updateById(userId: number, newUser: User): Promise<User> {
         return await this.prisma.User.update({
             where: {

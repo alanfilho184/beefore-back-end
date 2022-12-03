@@ -24,7 +24,7 @@ module.exports = async () => {
 
     isPortTaken(config.default.PORT, (taken) => { 
         if(!taken){
-            app.listen(config.default.PORT, () => console.info(`Listening port ${config.default.PORT}`))
+            app.start(config.default.PORT, () => console.info(`Listening port ${config.default.PORT}`))
         }
     })
 }

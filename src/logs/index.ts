@@ -39,7 +39,7 @@ export default class LogHandler {
             return fileName.match(/\.log$/g) != null
         })
 
-        for (const i in logs) {
+        for (const _i in logs) {
             if (logs.length > 30) {
                 let older = DateTime.now().setZone('America/Fortaleza')
                 logs.forEach((log: string) => {
@@ -71,7 +71,9 @@ export default class LogHandler {
 
         const time = DateTime.now().setZone('America/Fortaleza').toLocaleString(DateTime.DATETIME_SHORT_WITH_SECONDS)
 
-        console.log(`[ ${color.green(time)} ] - [ ${color.red('Error 500')} ]\n${errorString}\n---------------------------\n`)
+        if (process.env.NODE_ENV != 'test') {
+            console.log(`[ ${color.green(time)} ] - [ ${color.red('Error 500')} ]\n${errorString}\n---------------------------\n`)
+        }
 
         this.updateActualLogFile(`[ ${time} ] - [ Error 500 ]\n`)
         this.updateActualLogFile(errorString)

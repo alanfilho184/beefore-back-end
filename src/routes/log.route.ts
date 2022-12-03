@@ -1,4 +1,3 @@
-import cors from 'cors'
 import { Router, Request, Response } from 'express'
 import { DateTime } from 'luxon'
 import path from 'path'
@@ -7,9 +6,9 @@ import LogHandler from '../logs'
 const router = Router()
 const logHandler = new LogHandler()
 
-router.get('/', cors({ origin: '*' }), async (req: Request, res: Response) => {
+router.get('/', async (req: Request, res: Response) => {
     try {
-        if (req.headers.authorization == process.env.ADMIN_TOKEN) {
+        if (req.headers.authorization === process.env.ADMIN_TOKEN) {
             if (req.body.day) {
                 const logDate = DateTime.fromFormat(req.body.day, 'dd-LL-yyyy')
                 const log = logHandler.searchLogFile(logDate)

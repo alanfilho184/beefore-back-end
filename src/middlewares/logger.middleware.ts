@@ -1,5 +1,4 @@
 import { Request, Response, NextFunction } from 'express'
-import { Socket } from 'socket.io'
 import { DateTime } from 'luxon'
 import color from 'colors'
 import LogHandler from '../logs'
@@ -45,9 +44,11 @@ export function logger(req: Request, res: Response, next: NextFunction) {
 
         const execTime = (DateTime.now().toMillis() - req.startTime).toString() + 'ms'
 
-        console.log(
-            `[ ${color.green(time)} ] - [ ${color.green(resource)} ] - [ ${color.cyan(user)} ] - [ ${status} ${color.underline(execTime)} ]\n`,
-        )
+        if (process.env.NODE_ENV != 'test') {
+            console.log(
+                `[ ${color.green(time)} ] - [ ${color.green(resource)} ] - [ ${color.cyan(user)} ] - [ ${status} ${color.underline(execTime)} ]\n`,
+            )
+        }
         logHandler.updateActualLogFile(`[ ${time} ] - [ ${resource} ] - [ ${user} ] - [ ${statusNoColor} ${execTime} ]\n`)
     })
 

@@ -8,7 +8,7 @@ import { Socket } from 'socket.io'
 const userController = new UserController(prisma)
 const authServices = new AuthServices()
 
-const excludeRoutes = ['POST|/auth/login', 'POST|/auth/recovery', 'POST|/user', 'POST|/relatory', 'GET|/log']
+const excludeRoutes = ['POST|/auth/login', 'POST|/user', 'POST|/relatory', 'GET|/log']
 
 export async function verifyToken(req: Request, res: Response, next: NextFunction) {
     req.startTime = DateTime.now().setZone('America/Fortaleza').toMillis()
@@ -46,8 +46,7 @@ export async function verifyTokenWebsocket(socket: Socket, next: (Error?: Error)
     if (!socket.handshake.headers.authorization) {
         socket.disconnect(true)
         next(new Error('Token não encontrado'))
-    }
-    else{
+    } else {
         try {
             const userId = authServices.verifyToken(socket.handshake.headers.authorization)
 

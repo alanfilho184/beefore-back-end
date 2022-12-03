@@ -54,7 +54,9 @@ export default class ReservationServices {
                             dayAverage += outTime.toMillis() - inTime.toMillis()
                             daySamples += 1
                         }
-                    } catch (err) {}
+                    } catch (err) {
+                        null
+                    }
                 }
             }
 

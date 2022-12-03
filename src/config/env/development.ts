@@ -3,12 +3,14 @@ class ConfigDevelopment {
     PORT: number
     API_BASE: string
     DATABASE_URL: string | undefined
+    BOT_TOKEN: string | undefined
     CORS_ORIGIN: string | string[]
     constructor() {
         this.env = 'development'
         this.PORT = Number(process.env.PORT)
         this.API_BASE = '/'
         this.DATABASE_URL = process.env.DATABASE_URL
+        this.BOT_TOKEN = process.env.TEST_BOT_TOKEN
 
         if (process.env.CORS_ORIGIN) {
             this.CORS_ORIGIN = process.env.CORS_ORIGIN.search(',') != -1 ? process.env.CORS_ORIGIN.split(',') : process.env.CORS_ORIGIN

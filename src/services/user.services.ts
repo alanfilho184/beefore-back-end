@@ -18,8 +18,10 @@ class DuplicationError extends Error {
 
 export default class UserServices {
     User: any
-    constructor(User: any) {
+    Authorization: any
+    constructor(User: any, Authorization: any) {
         this.User = User
+        this.Authorization = Authorization
     }
 
     hashPassword(password: string): string {
@@ -68,6 +70,20 @@ export default class UserServices {
 
             if (user) {
                 throw new DuplicationError('Cartão já cadastrado')
+            }
+        }
+
+        user = await this.Authorization.getByUserEmail(newUser.email)
+
+        if (user[0]) {
+            throw new DuplicationError('Email já está aguardando autorização de cadastro')
+        }
+
+        if (newUser.cardid) {
+            user = await this.Authorization.getByUserCardId(newUser.cardid)
+
+            if (user[0]) {
+                throw new DuplicationError('Cartão já está aguardando autorização de cadastro')
             }
         }
     }

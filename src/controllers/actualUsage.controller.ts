@@ -4,23 +4,23 @@ export default class ActualUsageController {
         this.prisma = prisma
     }
 
-    async addOne(userid: number) {
-        return await this.prisma.ActualUsage.create({
+    async addOne(userid: number): Promise<void> {
+        await this.prisma.ActualUsage.create({
             data: {
                 userid: userid,
             },
         })
     }
 
-    async removeOne(userid: number) {
-        return await this.prisma.ActualUsage.delete({
+    async removeOne(userid: number): Promise<void> {
+        await this.prisma.ActualUsage.delete({
             where: {
                 userid: userid,
             },
         })
     }
 
-    async getUsage() {
+    async getUsage(): Promise<number> {
         return await this.prisma.ActualUsage.count()
     }
 }

@@ -16,7 +16,7 @@ router.get('/', async (req: Request, res: Response) => {
                 res.status(200).json(authorizations)
             } else {
                 res.status(404).json({
-                    error: 'Nenhuma item para ser autorizado',
+                    error: 'Nenhum item para ser autorizado',
                 })
             }
         } else {

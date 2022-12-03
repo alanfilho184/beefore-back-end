@@ -24,6 +24,14 @@ export default class AuthorizationController {
         })
     }
 
+    async getByUserEmail(email: string): Promise<Array<string>> {
+        return await this.prisma.$queryRaw`SELECT data->>'name' FROM "Authorization" WHERE data->>'email' = ${email}`
+    }
+
+    async getByUserCardId(cardId: string): Promise<Array<string>> {
+        return await this.prisma.$queryRaw`SELECT data->>'name' FROM "Authorization" WHERE data->>'cardid' = ${cardId}`
+    }
+
     async create(authorization: Authorization): Promise<Authorization> {
         return await this.prisma.Authorization.create({ data: authorization })
     }
@@ -50,11 +58,11 @@ export default class AuthorizationController {
                             .then(() => {
                                 resolve(true)
                             })
-                            .catch((err: any) => {
+                            .catch((err: Error) => {
                                 reject(err)
                             })
                     })
-                    .catch((err: any) => {
+                    .catch((err: Error) => {
                         reject(err)
                     })
             } else if (authorization.type == 'User') {
@@ -66,11 +74,11 @@ export default class AuthorizationController {
                             .then(() => {
                                 resolve(true)
                             })
-                            .catch((err: any) => {
+                            .catch((err: Error) => {
                                 reject(err)
                             })
                     })
-                    .catch((err: any) => {
+                    .catch((err: Error) => {
                         reject(err)
                     })
             }

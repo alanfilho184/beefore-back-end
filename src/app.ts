@@ -15,14 +15,16 @@ const configureExpress = () => {
     app.use(helmet())
     app.use(
         cors({
-            origin: config.default.CORS_ORIGIN
-        })
+            origin: config.default.CORS_ORIGIN,
+        }),
     )
     app.use(express.json())
     app.use(middlewares)
     app.use(config.default.API_BASE, routes)
 
-    bot.launch()
+    if (config.default.env != 'test') {
+        bot.launch()
+    }
 
     app.start = (port: number, callback: () => void) => {
         const server = app.listen(port, callback)

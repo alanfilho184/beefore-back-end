@@ -9,7 +9,7 @@ import LogHandler from '../logs'
 const router = Router()
 const userController = new UserController(prisma)
 const authorizationController = new AuthorizationController(prisma)
-const userServices = new UserServices(userController)
+const userServices = new UserServices(userController, authorizationController)
 const logHandler = new LogHandler()
 
 router.post('/', async (req: Request, res: Response) => {
@@ -46,13 +46,15 @@ router.get('/', async (req: Request, res: Response) => {
         let user
 
         if (req.user.type == 'Coordinator') {
-            if (req.body.email) {
-                user = await userController.getByEmail(req.body.email)
-            } else if (req.body.id) {
-                user = await userController.getById(req.body.id)
-            } else if (req.body.cardid) {
-                user = await userController.getByCardId(req.body.cardid)
-            } else if (req.body.getAll) {
+            const query: { id?: string; email?: string; cardid?: string; name?: string; getAll?: string } = req.query
+
+            if (query.email) {
+                user = await userController.getByEmail(query.email)
+            } else if (query.id) {
+                user = await userController.getById(parseInt(query.id))
+            } else if (query.cardid) {
+                user = await userController.getByCardId(query.cardid)
+            } else if (query.getAll) {
                 const users = await userController.getAll()
 
                 const allUsers: Array<object> = []
@@ -70,6 +72,24 @@ router.get('/', async (req: Request, res: Response) => {
                 })
 
                 return res.status(200).json(allUsers)
+            } else if (query.name) {
+                const users = await userController.searchByName(query.name)
+
+                const foundUsers: Array<object> = []
+                users.forEach((user: User) => {
+                    foundUsers.push({
+                        id: user.id,
+                        cardid: user.cardid || null,
+                        name: user.name,
+                        email: user.email,
+                        telegramid: user.telegramid || null,
+                        profileimage: user.profileimage,
+                        occupation: user.occupation,
+                        type: user.type,
+                    })
+                })
+
+                return res.status(200).json(foundUsers)
             } else {
                 user = await userController.getById(req.user.id)
             }

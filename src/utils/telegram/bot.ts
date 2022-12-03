@@ -1,7 +1,8 @@
+import { config } from '../../config/config'
 import { Context, Telegraf } from 'telegraf'
 import codeGenerator from './codeGenerator'
 
-const bot = new Telegraf(`${process.env.BOT_TOKEN}`)
+const bot = new Telegraf(`${config.default.BOT_TOKEN}`)
 
 bot.command('sincronizar', async (ctx: Context) => {
     const code = await codeGenerator(`${ctx.chat?.id}` || '0')
