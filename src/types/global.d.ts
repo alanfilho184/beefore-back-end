@@ -50,6 +50,12 @@ declare global {
         expiration: Date
     }
 
+    type RelatoryCode = {
+        id?: number
+        code: string
+        expiration: Date
+    }
+
     namespace Express {
         interface Application {
             start: function

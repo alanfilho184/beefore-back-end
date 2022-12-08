@@ -54,7 +54,25 @@ export async function verifyTokenWebsocket(socket: Socket, next: (Error?: Error)
                 socket.disconnect(true)
                 next(new Error('Token inválido'))
             } else {
-                next()
+                const user = await userController.getById(userId.id)
+
+                if (user) {
+                    socket.data = {
+                        ...socket.data,
+                        user: {
+                            id: user.id,
+                            email: user.email,
+                            name: user.name,
+                            preferences: user.preferences,
+                            type: user.type,
+                        },
+                    }
+
+                    next()
+                } else {
+                    socket.disconnect(true)
+                    next(new Error('Token inválido'))
+                }
             }
         } catch (err) {
             socket.disconnect(true)
