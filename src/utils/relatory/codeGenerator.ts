@@ -15,7 +15,7 @@ function generateCode() {
     } while (newCode == code)
 
     code = newCode
-    websocketEvents.emit("refreshQRCode", code)
+    websocketEvents.emit('refreshQRCode', code)
 }
 
 function getCode() {

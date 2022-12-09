@@ -4,6 +4,7 @@ import ActualUsageController from '../controllers/actualUsage.controller'
 import RelatoryController from '../controllers/relatory.controller'
 import ActualUsageServices from '../services/actualUsage.services'
 import LogHandler from '../logs'
+import { DateTime as time } from 'luxon'
 
 const router = Router()
 const actualUsageController = new ActualUsageController(prisma)
@@ -20,8 +21,8 @@ router.get('/statistics', async (req: Request, res: Response) => {
 
         res.status(200).json({
             actualUsage: usage,
-            averageTimeUsage: averageTimeUsage.totalAverage.average,
-            mostUsedDay: averageTimeUsage.mostUsedDay,
+            averageTimeUsage: averageTimeUsage.totalAverage.average || 0,
+            mostUsedDay: averageTimeUsage.mostUsedDay || time.now().toFormat('dd/LL/yyyy'),
         })
     } catch (err) {
         logHandler.registerError(err)
